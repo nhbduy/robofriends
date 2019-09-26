@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { connect } from 'react-redux';
+
 import './App.css';
 
 import List from '../components/List';
@@ -7,19 +9,28 @@ import Search from '../components/Search';
 import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
 
-const App = () => {
+import { setSearchField } from '../actions';
+
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchField
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+  };
+}
+
+const App = ({ searchField, onSearchChange }) => {
   const [data, setData] = useState([]);
-  const [searchField, setSearchField] = useState('');
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(users => setData(users))
   }, []);
-
-  const onSearchChange = (event) => {
-    setSearchField(event.target.value);
-  }
 
   const filteredRobots = data.filter(item => item.name.toLowerCase().includes(searchField.toLowerCase()));
 
@@ -37,4 +48,4 @@ const App = () => {
   return !data.length ? loadingDOM : contentDOM;
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
