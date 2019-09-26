@@ -11,17 +11,13 @@ import ErrorBoundry from '../components/ErrorBoundry';
 
 import { setSearchField } from '../actions';
 
-const mapStateToProps = state => {
-  return {
-    searchField: state.searchField
-  }
-};
+const mapStateToProps = state => ({
+  searchField: state.searchField
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+});
 
 const App = ({ searchField, onSearchChange }) => {
   const [data, setData] = useState([]);
