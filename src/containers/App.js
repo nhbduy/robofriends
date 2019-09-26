@@ -5,6 +5,7 @@ import './App.css';
 import List from '../components/List';
 import Search from '../components/Search';
 import Scroll from '../components/Scroll';
+import ErrorBoundry from '../components/ErrorBoundry';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -27,7 +28,9 @@ const App = () => {
     <h1 className='f1'>RoboFriends</h1>
     <Search searchChange={onSearchChange} />
     <Scroll>
-      <List data={filteredRobots} />
+      <ErrorBoundry>
+        <List data={filteredRobots} />
+      </ErrorBoundry>
     </Scroll>
   </div>);
   
