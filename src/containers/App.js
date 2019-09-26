@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -9,39 +9,44 @@ import Search from '../components/Search';
 import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
 
-import { setSearchField } from '../actions';
+import { setSearchField, setRequestRobots } from '../actions';
 
 const mapStateToProps = state => ({
-  searchField: state.searchField
+  searchField: state.searchRobots.searchField,
+  robots: state.requestRobots.robots,
+  isPending: state.requestRobots.isPending,
+  error: state.requestRobots.error
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+  onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+  onRequestRobots: () => dispatch(setRequestRobots())
 });
 
-const App = ({ searchField, onSearchChange }) => {
-  const [data, setData] = useState([]);
+class App extends Component {
+  componentDidMount() {
+    this.props.onRequestRobots();
+  };
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(users => setData(users))
-  }, []);
-
-  const filteredRobots = data.filter(item => item.name.toLowerCase().includes(searchField.toLowerCase()));
-
-  const loadingDOM = (<h1 className='tc'>Loading...</h1>);
-  const contentDOM = (<div className='tc'>
-    <h1 className='f1'>RoboFriends</h1>
-    <Search searchChange={onSearchChange} />
-    <Scroll>
-      <ErrorBoundry>
-        <List data={filteredRobots} />
-      </ErrorBoundry>
-    </Scroll>
-  </div>);
   
-  return !data.length ? loadingDOM : contentDOM;
+  render() {
+    const { searchField, robots, isPending, onSearchChange } = this.props;
+    
+    const filteredRobots = robots.filter(item => item.name.toLowerCase().includes(searchField.toLowerCase()));
+
+    const loadingDOM = (<h1 className='tc'>Loading...</h1>);
+    const contentDOM = (<div className='tc'>
+      <h1 className='f1'>RoboFriends</h1>
+      <Search searchChange={onSearchChange} />
+      <Scroll>
+        <ErrorBoundry>
+          <List data={filteredRobots} />
+        </ErrorBoundry>
+      </Scroll>
+    </div>);
+
+    return isPending ? loadingDOM : contentDOM;
+  } 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
