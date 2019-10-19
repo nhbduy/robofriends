@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/robofriends/precache-manifest.86396bf12f1e67d1fdecea0ba2012a31.js"
+  "/robofriends/precache-manifest.2d11acc429fb8b466b4357edd6415dba.js"
 );
 
 self.addEventListener('message', (event) => {
