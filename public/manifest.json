@@ -15,6 +15,11 @@
       "src": "favicon/mstile-150x150.png",
       "type": "image/png",
       "sizes": "150x150"
+    },
+    {
+      "src": "favicon/android-chrome-144x144.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
   "start_url": ".",
