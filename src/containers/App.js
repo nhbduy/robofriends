@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import './App.css';
 
+import Header from '../components/Header';
 import List from '../components/List';
 import Search from '../components/Search';
 import Scroll from '../components/Scroll';
@@ -19,34 +20,40 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+  onSearchChange: event => dispatch(setSearchField(event.target.value)),
   onRequestRobots: () => dispatch(setRequestRobots())
 });
 
 class App extends Component {
   componentDidMount() {
     this.props.onRequestRobots();
-  };
+  }
 
-  
   render() {
     const { searchField, robots, isPending, onSearchChange } = this.props;
-    
-    const filteredRobots = robots.filter(item => item.name.toLowerCase().includes(searchField.toLowerCase()));
 
-    const loadingDOM = (<h1 className='tc'>Loading...</h1>);
-    const contentDOM = (<div className='tc'>
-      <h1 className='f1'>RoboFriends</h1>
-      <Search searchChange={onSearchChange} />
-      <Scroll>
-        <ErrorBoundry>
-          <List data={filteredRobots} />
-        </ErrorBoundry>
-      </Scroll>
-    </div>);
+    const filteredRobots = robots.filter(item =>
+      item.name.toLowerCase().includes(searchField.toLowerCase())
+    );
+
+    const loadingDOM = <h1 className='tc'>Loading...</h1>;
+    const contentDOM = (
+      <div className='tc'>
+        <Header />
+        <Search searchChange={onSearchChange} />
+        <Scroll>
+          <ErrorBoundry>
+            <List data={filteredRobots} />
+          </ErrorBoundry>
+        </Scroll>
+      </div>
+    );
 
     return isPending ? loadingDOM : contentDOM;
-  } 
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
