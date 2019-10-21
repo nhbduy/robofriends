@@ -25,8 +25,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
-  static whyDidYouRender = true;
-
   componentDidMount() {
     this.props.onRequestRobots();
   }
