@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expect to render MainPage component 1`] = `
+"<div className=\\"tc\\">
+  <Header />
+  <Search searchChange={[undefined]} />
+  <Scroll>
+    <ErrorBoundry>
+      <List data={{...}} />
+    </ErrorBoundry>
+  </Scroll>
+</div>"
+`;
