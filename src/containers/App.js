@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 
 import './App.css';
 
-import Header from '../components/Header';
-import List from '../components/List';
-import Search from '../components/Search';
-import Scroll from '../components/Scroll';
-import ErrorBoundry from '../components/ErrorBoundry';
+import MainPage from '../components/MainPage';
 
 import { setSearchField, setRequestRobots } from '../actions';
 
@@ -25,31 +21,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
-  componentDidMount() {
-    this.props.onRequestRobots();
-  }
-
   render() {
-    const { searchField, robots, isPending, onSearchChange } = this.props;
-
-    const filteredRobots = robots.filter(item =>
-      item.name.toLowerCase().includes(searchField.toLowerCase())
-    );
-
-    const loadingDOM = <h1 className='tc'>Loading...</h1>;
-    const contentDOM = (
-      <div className='tc'>
-        <Header />
-        <Search searchChange={onSearchChange} />
-        <Scroll>
-          <ErrorBoundry>
-            <List data={filteredRobots} />
-          </ErrorBoundry>
-        </Scroll>
-      </div>
-    );
-
-    return isPending ? loadingDOM : contentDOM;
+    return <MainPage {...this.props} />;
   }
 }
 
